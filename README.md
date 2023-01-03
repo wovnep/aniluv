@@ -1,14 +1,12 @@
 ![banner](https://github.com/wovnep/aniluv/blob/main/public/banner.png?raw=true)
 
-<h4 align="center"> Modern, Lightweight anime streaming desktop application for Windows, Linux and MacOS /h1>
+<h4 align="center"> Modern, Lightweight anime streaming desktop application for Windows, Linux and MacOS </h4>
 
 ---
 
-
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/wovnep/aniluv/release.yml?style=plastic)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/wovnep/aniluv) 
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/wovnep/aniluv)
 ![GitHub](https://img.shields.io/github/license/wovnep/aniluv)
-
 
 ## Features
 
@@ -34,3 +32,7 @@ These projects help a lot to build Aniluv.
 -   [Tailwindcss](https://tailwindcss.com/)
 -   [Consumet](https://github.com/consumet)
 -   [Anilist](https://anilist.co/)
+
+## License
+
+MIT License
