@@ -1,0 +1,28 @@
+@import url("https://cdn.jsdelivr.net/npm/@vime/core@^5/themes/default.css");
+@import url("https://fonts.googleapis.com/css2?family=Quicksand&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    color: #ffffff;
+    background-color: #181818;
+    user-select: none;
+}
+
+::-webkit-scrollbar {
+    width: 4px;
+    height: 10px;
+}
+::-webkit-scrollbar-track {
+    background-color: rgb(0 0 0 / 40%);
+    border-radius: 100px;
+}
+::-webkit-scrollbar-thumb:vertical {
+    background: #121212;
+    border-radius: 100px;
+}
+::-webkit-scrollbar-thumb:horizontal {
+    background: #121212;
+    border-radius: 100px;
+}
