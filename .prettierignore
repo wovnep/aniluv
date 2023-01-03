@@ -1,0 +1,6 @@
+vite.config.ts
+tsconfig.json
+tsconfig.node.json
+postcss.config.cjs
+index.html
+src-tauri/*
