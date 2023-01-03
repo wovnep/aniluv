@@ -3,10 +3,14 @@
 <h4 align="center"> Modern, Lightweight anime streaming desktop application for Windows, Linux and MacOS </h4>
 
 ---
+<div align="center">
 
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/wovnep/aniluv/release.yml?style=plastic)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/wovnep/aniluv)
-![GitHub](https://img.shields.io/github/license/wovnep/aniluv)
+  ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/wovnep/aniluv/release.yml?style=plastic)
+  ![GitHub release (latest by date)](https://img.shields.io/github/v/release/wovnep/aniluv)
+  ![GitHub](https://img.shields.io/github/license/wovnep/aniluv)
+  
+</div>
+
 
 ## Features
 
