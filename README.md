@@ -1,6 +1,6 @@
 ![banner](https://i.imgur.com/UY0Iv7x.png)
 
-<h4 align="center"> Modern, Lightweight anime streaming desktop application for Windows, Linux and MacOS </h4>
+<h4 align="center"> Modern, Lightweight anime streaming application for Windows, Linux and MacOS </h4>
 
 ---
 
