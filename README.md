@@ -1,31 +1,33 @@
-![banner](https://github.com/wovnep/aniluv/blob/main/public/banner.png?raw=true)
+![banner](https://i.imgur.com/UY0Iv7x.png)
 
 <h4 align="center"> Modern, Lightweight anime streaming desktop application for Windows, Linux and MacOS </h4>
 
 ---
+
 <div align="center">
 
-  ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/wovnep/aniluv/release.yml?style=plastic)
-  ![GitHub release (latest by date)](https://img.shields.io/github/v/release/wovnep/aniluv)
-  ![GitHub](https://img.shields.io/github/license/wovnep/aniluv)
-  
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/wovnep/aniluv/release.yml?style=plastic)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/wovnep/aniluv)
+![GitHub](https://img.shields.io/github/license/wovnep/aniluv)
+
 </div>
 
+![screenshot](https://i.imgur.com/3ceUpAh.png)
 
 ## Features
 
 Aniluv is still under development. These are the features currently available on the app.
 
 -   Watch anime (Tv shows, Movies, etc.)
--   Connect anilist and manage your profile
+-   Connect Anilist and manage your profile
 -   Supports Windows, Linux and macOS
--   Search anime
+-   Search and view anime info
 -   Get trending/popular releases
--   Low memory usage, achieved by using rust on the backend
+-   Low memory usage, achieved by using rust on the backend (Tauri)
 
 ## Download
 
--   Download the latest version from [here](https://github.com/wovnep/aniluv/releases/latest). Make sure to download the right package based on your operating system.
+-   Download the latest version from [here](https://github.com/wovnep/aniluv/releases/latest). Be sure to select the right package based on your operating system.
 
 ## Thanks to
 
