@@ -37,7 +37,7 @@ jobs:
                   cache: "npm"
 
             - name: Install app dependencies and build web
-              run: npm && npm build
+              run: npm install && npm build
 
             - name: Build the app
               uses: tauri-apps/tauri-action@v0
@@ -47,6 +47,6 @@ jobs:
               with:
                   tagName: ${{ github.ref_name }}
                   releaseName: "v__VERSION__"
-                  releaseBody: "Download releases from below."
+                  releaseBody: "Aniluv release."
                   releaseDraft: true
                   prerelease: false
