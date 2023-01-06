@@ -47,6 +47,6 @@ jobs:
               with:
                   tagName: ${{ github.ref_name }}
                   releaseName: "v__VERSION__"
-                  releaseBody: "Aniluv release."
+                  releaseBody: "Aniluv release draft."
                   releaseDraft: true
                   prerelease: false
