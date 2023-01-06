@@ -19,13 +19,13 @@
                 <img class="h-auto w-28" src="/app.png" alt="icon" />
                 <div class="my-4 text-xl font-bold">Aniluv</div>
                 <div class="text-sm font-thin">
-                    <div>A open source project made for weebs : 3</div>
-                    <div>I hope to maintain this project as long as i can.</div>
-                    <div class="mt-5 text-base font-normal">Happen to find any bugs please create a github issue <button class="text-accent underline" on:click="{() => open('https://github.com/wovnep/aniluv/issues')}">here</button></div>
-                    <div class="mt-3 font-thin">If you like this project you can support me by buying a coffee. It's help me a lot &lt;3</div>
+                    <div>An open-source project made for weebs : 3</div>
+                    <div>I hope to maintain this project as long as I can.</div>
+                    <div class="mt-5 text-base font-normal">Happen to find any bugs? Create a GitHub issue <button class="text-accent underline" on:click="{() => open('https://github.com/wovnep/aniluv/issues')}">here.</button></div>
+                    <div class="mt-3 font-thin">Join discord for updates.</div>
                     <div class="mt-2 flex justify-center">
-                        <button on:click="{() => open('https://www.buymeacoffee.com/wovnep')}">
-                            <img class="w-40" src="/bmc-button.svg" alt="Buy Me A Coffee" />
+                        <button on:click="{() => open('https://discord.gg/6uvyxGnNnp')}">
+                            <img class="w-40" src="/discord.svg" alt="Discord" />
                         </button>
                     </div>
                 </div>
