@@ -41,9 +41,6 @@
             <li>
                 <About />
             </li>
-            <li>
-                <button on:click="{() => open('https://discord.gg/6uvyxGnNnp')}" class="block w-full px-4 py-2 text-sm hover:bg-hover">Discord</button>
-            </li>
         </ul>
     </div>
 </div>

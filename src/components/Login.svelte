@@ -49,8 +49,8 @@
                     <h5 class="text-xl font-medium leading-normal">Anilist login</h5>
                 </div>
                 <div class="mx-4 mt-3 text-sm font-thin">
-                    Aniluv currently can't handdle redirection. So please consider using this
-                    <div class="mt-1 select-text bg-menu p-1">https://anilist.co/api/v2/oauth/authorize?client_id=10615&response_type=token</div>
+                    Aniluv currently can't handle redirection. So please consider using this method to login.
+                    <div class="mt-5 select-text bg-menu p-1">https://anilist.co/api/v2/oauth/authorize?client_id=10615&response_type=token</div>
                 </div>
                 <div class="my-5 flex justify-center">
                     <input bind:value="{key}" class="mx-4 w-full items-center justify-center rounded-sm bg-darker p-3 text-sm font-normal focus:outline-none" placeholder="Paste code here..." />
