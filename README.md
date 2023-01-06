@@ -19,7 +19,7 @@
 Aniluv is still under development. These are the features currently available on the app.
 
 -   Watch anime (Tv shows, Movies, etc.)
--   Connect Anilist and manage your profile
+-   Connect Anilist and manage your anime list
 -   Supports Windows, Linux and macOS
 -   Search and view anime info
 -   Get trending/popular releases
@@ -27,11 +27,11 @@ Aniluv is still under development. These are the features currently available on
 
 ## Download
 
--   Download the latest version from [here](https://github.com/wovnep/aniluv/releases/latest). Be sure to select the right package based on your operating system.
+-   Download the latest version from [here](https://github.com/wovnep/aniluv/releases/latest). Make sure to select the right package based on your operating system.
 
 ## Thanks to
 
-These projects help a lot to build Aniluv.
+Check out these amazing projects.
 
 -   [Tauri](https://tauri.app/)
 -   [Svelte](https://svelte.dev/)
