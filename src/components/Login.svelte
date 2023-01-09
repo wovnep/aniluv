@@ -1,10 +1,11 @@
-<script>
+<script lang="ts">
     import { open } from "@tauri-apps/api/shell";
-    import { storeKey, logout } from "../lib/anilist-login";
-    let user;
-    let key;
-    export let state;
-    export let dropdown;
+    import { storeKey, logout } from "../lib/anilist/anilist-login";
+    let loginMessage: string;
+    let key: string;
+    export let state: string;
+    export let dropdown: Function;
+    let loginURL: string = "https://anilist.co/api/v2/oauth/authorize?client_id=10615&response_type=token";
 
     const logoutHandler = () => {
         logout();
@@ -15,22 +16,22 @@
     const loginByKey = async () => {
         const res = await storeKey(key);
         if (res.data) {
-            user = `Logged in as ${res.data.Viewer.name}`;
+            loginMessage = `Logged in as ${res.data.Viewer.name}`;
             setInterval(() => {
                 window.location.reload();
             }, 1000);
         } else {
-            user = res;
+            loginMessage = res;
         }
     };
     const loginModal = () => {
-        const div = document.getElementById("modal");
-        if (div.style.display === "block" || div.style.display === " ") {
-            div.style.display = "none";
+        const modal = document.getElementById("modal");
+        if (modal.style.display === "block" || modal.style.display === " ") {
+            modal.style.display = "none";
             dropdown();
         } else {
-            div.style.display = "block";
-            open("https://anilist.co/api/v2/oauth/authorize?client_id=10615&response_type=token");
+            modal.style.display = "block";
+            open(loginURL);
         }
     };
 </script>
@@ -50,14 +51,14 @@
                 </div>
                 <div class="mx-4 mt-3 text-sm font-thin">
                     Aniluv currently can't handle redirection. So please consider using this method to login.
-                    <div class="mt-5 select-text bg-menu p-1">https://anilist.co/api/v2/oauth/authorize?client_id=10615&response_type=token</div>
+                    <div class="mt-5 select-text bg-menu p-1">{loginURL}</div>
                 </div>
                 <div class="my-5 flex justify-center">
                     <input bind:value="{key}" class="mx-4 w-full items-center justify-center rounded-sm bg-darker p-3 text-sm font-normal focus:outline-none" placeholder="Paste code here..." />
                 </div>
-                {#if user}
+                {#if loginMessage}
                     <div class="mb-1 text-center">
-                        {user}
+                        {loginMessage}
                     </div>
                 {/if}
                 <div class="flex flex-shrink-0 flex-wrap items-center justify-end gap-4 rounded-b-md border-t p-4">

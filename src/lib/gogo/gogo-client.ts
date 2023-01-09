@@ -1,5 +1,5 @@
 import { getClient, ResponseType } from "@tauri-apps/api/http";
-import type { QueryResponse, TrendingPopularResponse, InfoResponse, EpisodeResponse } from "./anilist-types";
+import type { QueryResponse, TrendingPopularResponse, InfoResponse, EpisodeResponse } from "./gogo-types";
 const baseURL = "https://api.consumet.org/meta/anilist";
 
 export const query = async (q: string) => {

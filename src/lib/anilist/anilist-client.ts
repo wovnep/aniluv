@@ -1,8 +1,9 @@
 import { getClient } from "@tauri-apps/api/http";
+import type { MediaListQuery } from "./anilist-type";
 import moment from "moment";
 import { store } from "./anilist-login";
 
-export const getMediaList = async (id) => {
+export const getMediaList = async (id: string) => {
     const client = await getClient();
     const user = await store.get<any>("user");
     const key = await store.get<any>("key");
@@ -10,32 +11,32 @@ export const getMediaList = async (id) => {
         query: `
         {
             MediaList(userId:${user.user.id}, mediaId: ${id}){
-              id,
-              mediaId,
-              status,
-              score,
-              progress,
-              startedAt {
-                year
-                month
-                day
-              },
-              completedAt {
-                year
-                month
-                day
-              },
-              repeat,
-              notes,
-              private,
-              media{
-                episodes
-              }
-         }
-       }
+              	id,
+              	mediaId,
+              	status,
+              	score,
+              	progress,
+              	startedAt {
+                	year
+                	month
+                	day
+              	},
+              	completedAt {
+                	year
+                	month
+                	day
+              	},
+              	repeat,
+             	notes,
+              	private,
+              	media{
+                	episodes
+              	}
+         	}
+       	}
     `,
     };
-    const response = await client.request<any>({
+    const response = await client.request<MediaListQuery>({
         method: "POST",
         url: `https://graphql.anilist.co`,
         headers: {
@@ -47,7 +48,7 @@ export const getMediaList = async (id) => {
     });
     return response.data.data;
 };
-export const updateMediaList = async (data, id) => {
+export const updateMediaList = async (data: any, id: string) => {
     const client = await getClient();
     const key = await store.get<any>("key");
     let gqlBody = {
@@ -61,7 +62,7 @@ export const updateMediaList = async (data, id) => {
                       startedAt: { year: ${!data.startedAt ? null : moment(data.startedAt).year()}, month: ${!data.startedAt ? null : moment(data.startedAt).month() + 1}, day: ${!data.startedAt ? null : moment(data.startedAt).date()}},
                       completedAt: { year: ${!data.completedAt ? null : moment(data.completedAt).year()}, month: ${!data.completedAt ? null : moment(data.completedAt).month() + 1}, day: ${!data.completedAt ? null : moment(data.completedAt).date()}},
                   ){
-                status
+                id
               }
               }`,
         variables: "{}",

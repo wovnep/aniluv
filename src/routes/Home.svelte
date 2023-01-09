@@ -1,10 +1,10 @@
 <script lang="ts">
-    import { getPopular, getTrending } from "../lib/http-client";
+    import { getPopular, getTrending } from "../lib/gogo/gogo-client";
     import Search from "../components/Search.svelte";
-    import Card from "../components/Card.svelte";
+    import Card from "../components/suggestions/Card.svelte";
     import DropDown from "../components/DropDown.svelte";
-    import Loading from "../components/anime/Loading.svelte";
-    import Error from "../components/anime/Error.svelte";
+    import Loading from "../components/handling/Loading.svelte";
+    import Error from "../components/handling/Error.svelte";
 </script>
 
 <div class="flex w-full items-center justify-center py-3">
