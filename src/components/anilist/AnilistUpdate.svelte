@@ -1,15 +1,32 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import moment from "moment";
-    import { getMediaList, updateMediaList } from "../lib/anilist-client";
-    import { login } from "../lib/anilist-login";
-    export let id;
-    export let anime;
-    let state;
+    import { getMediaList, updateMediaList } from "../../lib/anilist/anilist-client";
+    import { login } from "../../lib/anilist/anilist-login";
+    import type { InfoResponse } from "../../lib/gogo/gogo-types";
+
+    export let id: string;
+    export let anime: InfoResponse;
+    let user: any;
+    let data = {
+        status: "CURRENT",
+        title: anime.title.english,
+        banner: anime.image,
+        cover: anime.cover,
+        score: 0,
+        episodes: anime.totalEpisodes,
+        progress: 0,
+        startedAt: null,
+        completedAt: null,
+        repeat: 0,
+        notes: "",
+    };
+    let updateMessage: string;
+
     onMount(async () => {
         const res = await login();
         if (res) {
-            state = res.data.Viewer;
+            user = res.data.Viewer;
             const medialist = await getMediaList(id);
             if (medialist.MediaList) {
                 let main = medialist.MediaList;
@@ -36,34 +53,32 @@
             }
         }
     });
-    let data = {
-        status: "CURRENT",
-        title: anime.title.english,
-        banner: anime.image,
-        cover: anime.cover,
-        score: 0,
-        episodes: anime.totalEpisodes,
-        progress: 0,
-        startedAt: null,
-        completedAt: null,
-        repeat: 0,
-        notes: "",
-    };
+
     const modaltoggle = () => {
+        updateMessage = undefined;
         document.getElementById("modal").classList.toggle("hidden");
+    };
+    const submit = async () => {
+        const response = await updateMediaList(data, id);
+        if (response.data) {
+            updateMessage = "Anilist updated!";
+        } else {
+            updateMessage = "Error has occurred!";
+        }
+        setTimeout(() => {
+            updateMessage = undefined;
+        }, 1500);
     };
 </script>
 
-{#if state}
+{#if user}
     <div class="absolute right-0 mt-1">
-        <button on:click="{modaltoggle}" class="rounded-md bg-[rgb(61,180,242)] py-2 px-3 text-sm">
-            {data.status}
-        </button>
+        <button on:click="{modaltoggle}" class="rounded-md bg-cyan-500 py-2 px-3 text-sm"> UPDATE LIST </button>
     </div>
 {:else}
     <div></div>
 {/if}
-<div class="fixed top-0 left-0 z-50 hidden w-full overflow-y-auto" id="modal">
+<div id="modal" class="fixed top-0 left-0 z-50 hidden w-full overflow-y-auto">
     <div class="min-height-100vh flex items-center justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
         <div class="fixed inset-0">
             <div class="absolute inset-0 bg-gray-900 opacity-75"></div>
@@ -116,15 +131,16 @@
                 <div class="mx-1 mb-1 text-sm font-thin text-gray-300">Note</div>
                 <input bind:value="{data.notes}" class="w-full bg-darker p-2 focus:outline-none" type="text" />
             </div>
+            {#if updateMessage}
+                <div class="absolute bottom-20 flex w-full justify-center">
+                    <div class="rounded-md bg-accent_hover bg-opacity-75 py-5 px-10 text-center text-base">
+                        {updateMessage}
+                    </div>
+                </div>
+            {/if}
             <div class="px-4 py-3 text-right">
                 <button type="button" on:click="{modaltoggle}" class="mr-2 rounded bg-menu py-2 px-4 text-white hover:bg-hover"><i class="fas fa-times"></i> Cancel</button>
-                <button
-                    type="button"
-                    on:click="{() => {
-                        modaltoggle();
-                        updateMediaList(data, id);
-                    }}"
-                    class="mr-2 rounded bg-accent py-2 px-4 text-white hover:bg-accent_hover"><i class="fas fa-plus"></i> Save</button>
+                <button type="button" on:click="{submit}" class="mr-2 rounded bg-accent py-2 px-4 text-white hover:bg-accent_hover"><i class="fas fa-plus"></i> Save</button>
             </div>
         </div>
     </div>
