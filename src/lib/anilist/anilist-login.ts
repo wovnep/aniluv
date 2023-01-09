@@ -3,7 +3,7 @@ import { Store } from "tauri-plugin-store-api";
 
 export const store = new Store(".settings.dat");
 
-export const storeKey = async (key) => {
+export const storeKey = async (key: string) => {
     const client = await getClient();
     const gqlBody = {
         query: `

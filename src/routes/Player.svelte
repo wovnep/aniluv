@@ -1,23 +1,28 @@
 <script lang="ts">
     import { Player, Hls, DefaultUi } from "@vime/svelte";
-    import { getInfo, getEpisode } from "../lib/http-client";
+    import { getInfo, getEpisode } from "../lib/gogo/gogo-client";
     import { link } from "svelte-spa-router";
     import { appWindow } from "@tauri-apps/api/window";
-    import TvIndexCard from "../components/player/TvIndexCard.svelte";
-    import OtherIndexCard from "../components/player/OtherIndexCard.svelte";
-    import AnilistUpdate from "../components/AnilistUpdate.svelte";
-    import Loading from "../components/anime/Loading.svelte";
-    export let params;
-    const getUrl = (sources) => {
+    import TvIndexCard from "../components/suggestions/TvIndexCard.svelte";
+    import OtherIndexCard from "../components/suggestions/OtherIndexCard.svelte";
+    import AnilistUpdate from "../components/anilist/AnilistUpdate.svelte";
+    import Loading from "../components/handling/Loading.svelte";
+    interface Parameters {
+        id: string;
+        index: number;
+    }
+    export let params: Parameters;
+
+    const getUrl = (sources: Array<any>) => {
         const source = sources.filter((source) => source.quality == "default");
-        if (source != 0) {
+        if (source.length != 0) {
             return source[0].url;
         } else {
             const backup = sources.filter((source) => source.quality == "backup");
             return backup[0].url;
         }
     };
-    const setFullscreen = async (e) => {
+    const setFullscreen = async (e: any) => {
         if (e.detail) {
             await appWindow.setFullscreen(true);
         } else {
@@ -31,7 +36,7 @@
 {:then anime}
     <div>
         <a href="/" use:link>
-            <div class="absolute right-6 bg-menu hover:bg-darker top-2 rounded-full p-2">
+            <div class="absolute right-6 bg-menu hover:bg-darker top-3 rounded-full p-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="white" width="19" height="19" viewBox="0 0 24 24"><path d="M21 13v10h-6v-6h-6v6h-6v-10h-3l12-12 12 12h-3zm-1-5.907v-5.093h-3v2.093l3 3z"></path></svg>
             </div>
         </a>
@@ -51,14 +56,20 @@
                     <div>
                         <AnilistUpdate anime="{anime}" id="{params.id}" />
                         <div class="mt-2 font-bold text-start text-2xl tracking-wide">
-                            {#if anime.title.english}{anime.title.english}{:else}{anime.title.romaji}{/if}{#if anime.episodes[params.index].title}
-                                | {anime.episodes[params.index].title}{/if}
+                            {#if anime.title.english}
+                                {anime.title.english}
+                            {:else}
+                                {anime.title.romaji}
+                            {/if}
+                            {#if anime.episodes[params.index].title}
+                                | {anime.episodes[params.index].title}
+                            {/if}
                         </div>
-                        <div class="text-xs opacity-90 mt-1">
+                        <div class="text-xs opacity-90 mt-2">
                             Release date: {anime.releaseDate}
                         </div>
                         <div class="font-semibold text-xs flex gap-2 text-black py-2">
-                            <div class="bg-red-400 px-2 py-1 rounded-md capitalize">
+                            <div class="tooltip bg-red-400 px-2 py-1 rounded-md capitalize">
                                 {anime.subOrDub}
                             </div>
                             <div class="bg-green-400 px-2 py-1 rounded-md">
@@ -67,8 +78,8 @@
                             <div class="bg-cyan-400 px-2 py-1 rounded-md first-letter:uppercase lowercase">
                                 {anime.type}
                             </div>
-                            <div class="bg-red-400 px-2 py-1 rounded-md">
-                                {anime.rating}
+                            <div class="bg-rose-400 px-2 py-1 rounded-md">
+                                {anime.rating}%
                             </div>
                         </div>
                         <div class="mt-5 text-sm font-thin">

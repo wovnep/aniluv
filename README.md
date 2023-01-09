@@ -29,6 +29,67 @@ Aniluv is still under development. These are the features currently available on
 
 -   Download the latest version from [here](https://github.com/wovnep/aniluv/releases/latest). Make sure to select the right package based on your operating system.
 
+## Build
+
+The first step is to install [Rust](https://www.rust-lang.org)
+
+### Windows
+
+-   Install C++ Build tools and Windows 10 SDK from [Visual Studio](https://visualstudio.microsoft.com/visual-cpp-build-tools)
+-   Windows 10 users must install [WebView2](https://developer.microsoft.com/en-us/microsoft-edge/webview2/#download-section). WebView2 is pre-installed in Windows 11.
+
+### macOS
+
+-   Install Clang and macOS dev dependencies
+
+```
+xcode-select --install
+```
+
+### Linux
+
+-   Install C compiler and webkit2gtk
+
+```
+sudo apt update
+sudo apt install libwebkit2gtk-4.0-dev \
+    build-essential \
+    curl \
+    wget \
+    libssl-dev \
+    libgtk-3-dev \
+    libayatana-appindicator3-dev \
+    librsvg2-dev
+```
+
+After dependency installation proceeds with the commands below.
+
+```
+git clone https://github.com/wovnep/aniluv.git
+
+npm install
+```
+
+## Development
+
+#### Build
+
+```
+npm run tauri build
+```
+
+#### Dev
+
+```
+npm run tauri dev
+```
+
+#### Prettify
+
+```
+npm run prettier
+```
+
 ## Thanks to
 
 Check out these amazing projects.

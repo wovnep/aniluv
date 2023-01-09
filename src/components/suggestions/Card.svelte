@@ -1,8 +1,8 @@
 <script lang="ts">
     import { link } from "svelte-spa-router";
-    export let image;
-    export let title;
-    export let id;
+    export let image: string;
+    export let title: string;
+    export let id: string;
 </script>
 
 <div class="border-sm mb-3 h-auto w-48 overflow-hidden rounded-2xl bg-menu hover:bg-hover">

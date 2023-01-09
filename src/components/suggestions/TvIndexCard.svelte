@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
     import { link } from "svelte-spa-router";
-    export let anime;
-    export let params;
+    export let anime: any;
+    export let params: any;
 </script>
 
 <div class="w-[25%] px-5">
@@ -14,17 +14,17 @@
                         <div class="title pt-5 font-extrabold">
                             [{episodes.number}] {episodes.title}
                         </div>
-                        <div class="description mt-2 text-sm font-thin">
+                        <div class="description mt-5 text-sm font-thin">
                             {episodes.description}
                         </div>
                     </div>
                 {:else}
                     <a href="/watch/{anime.id}/{i}" use:link>
-                        <div class="h-full w-full rounded-2xl px-5 text-start text-white backdrop-blur-[1px] backdrop-brightness-50 hover:backdrop-brightness-75">
+                        <div class="h-full w-full rounded-2xl px-5 text-start text-white backdrop-blur-[1px] backdrop-brightness-50 hover:backdrop-brightness-[.7]">
                             <div class="title pt-5 font-extrabold">
                                 [{episodes.number}] {episodes.title}
                             </div>
-                            <div class="description mt-2 text-sm font-thin">
+                            <div class="description mt-5 text-sm font-thin">
                                 {episodes.description}
                             </div>
                         </div>

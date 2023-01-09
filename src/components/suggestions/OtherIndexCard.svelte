@@ -1,6 +1,6 @@
-<script>
+<script lang="ts">
     import { link } from "svelte-spa-router";
-    export let anime;
+    export let anime: any;
 </script>
 
 <div class="w-[25%] px-5">
