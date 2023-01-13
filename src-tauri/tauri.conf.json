@@ -68,10 +68,11 @@
       {
         "fullscreen": false,
         "height": 563,
-        "center": true,
+        "center": false,
         "resizable": true,
         "title": "Aniluv",
-        "width": 1000
+        "width": 1000,
+        "maximized": true
       }
     ]
   }
