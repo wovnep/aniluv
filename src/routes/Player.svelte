@@ -3,6 +3,7 @@
     import { getInfo, getEpisode } from "../lib/gogo/gogo-client";
     import { link } from "svelte-spa-router";
     import { appWindow } from "@tauri-apps/api/window";
+    import { createQuery } from "@tanstack/svelte-query";
     import TvIndexCard from "../components/suggestions/TvIndexCard.svelte";
     import OtherIndexCard from "../components/suggestions/OtherIndexCard.svelte";
     import AnilistUpdate from "../components/anilist/AnilistUpdate.svelte";
@@ -12,16 +13,10 @@
         index: number;
     }
     export let params: Parameters;
-
-    const getUrl = (sources: Array<any>) => {
-        const source = sources.filter((source) => source.quality == "default");
-        if (source.length != 0) {
-            return source[0].url;
-        } else {
-            const backup = sources.filter((source) => source.quality == "backup");
-            return backup[0].url;
-        }
-    };
+    const info = createQuery({
+        queryKey: [params.id],
+        queryFn: () => getInfo(params.id),
+    });
     const setFullscreen = async (e: any) => {
         if (e.detail) {
             await appWindow.setFullscreen(true);
@@ -31,72 +26,72 @@
     };
 </script>
 
-{#await getInfo(params.id)}
+{#if $info.isLoading}
     <Loading index="2" />
-{:then anime}
+{:else if $info.isError}
+    <div class="absolute right-0 left-0 top-0 bottom-0 ">
+        {$info.error}
+    </div>
+{:else if $info.isSuccess}
     <div>
         <a href="/" use:link>
-            <div class="absolute right-6 bg-menu hover:bg-darker top-3 rounded-full p-2">
+            <div class="absolute right-6 top-3 rounded-full bg-menu p-2 hover:bg-darker">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="white" width="19" height="19" viewBox="0 0 24 24"><path d="M21 13v10h-6v-6h-6v6h-6v-10h-3l12-12 12 12h-3zm-1-5.907v-5.093h-3v2.093l3 3z"></path></svg>
             </div>
         </a>
-        <div class="flex my-5 ml-5">
-            <div class="w-[75%] inline-block relative after:pt-[56.25%] after:block after:content-['']">
+        <div class="my-5 ml-5 flex">
+            <div class="relative inline-block w-[75%] after:block after:pt-[56.25%] after:content-['']">
                 <div class="absolute top-0 bottom-0 right-0 left-0">
-                    {#await getEpisode(anime.episodes[params.index].id)}
+                    {#await getEpisode($info.data.episodes[params.index].id)}
                         <div class="bg-black w-full pt-[56.25%]"></div>
                     {:then episodes}
-                        <Player theme="dark" style="--vm-player-theme: #121212;" on:vmFullscreenChange="{setFullscreen}">
-                            <Hls poster="{anime.cover}">
-                                <source data-src="{getUrl(episodes.sources)}" type="application/x-mpegURL" />
+                        <Player theme="dark" style="--vm-player-theme: #555555; --vm-player-bg: #000000;" on:vmFullscreenChange="{setFullscreen}">
+                            <Hls>
+                                <source data-src="{episodes.url}" type="application/x-mpegURL" />
                             </Hls>
                             <DefaultUi noSpinner noCaptions />
                         </Player>
                     {/await}
                     <div>
-                        <AnilistUpdate anime="{anime}" id="{params.id}" />
-                        <div class="mt-2 font-bold text-start text-2xl tracking-wide">
-                            {#if anime.title.english}
-                                {anime.title.english}
+                        <AnilistUpdate anime="{$info.data}" id="{params.id}" />
+                        <div class="mt-2 text-start text-2xl font-bold tracking-wide">
+                            {#if $info.data.title.english}
+                                {$info.data.title.english}
                             {:else}
-                                {anime.title.romaji}
+                                {$info.data.title.romaji}
                             {/if}
-                            {#if anime.episodes[params.index].title}
-                                | {anime.episodes[params.index].title}
+                            {#if $info.data.episodes[params.index].title}
+                                | {$info.data.episodes[params.index].title}
                             {/if}
                         </div>
-                        <div class="text-xs opacity-90 mt-2">
-                            Release date: {anime.releaseDate}
+                        <div class="mt-2 text-xs opacity-90">
+                            Release date: {$info.data.releaseDate}
                         </div>
-                        <div class="font-semibold text-xs flex gap-2 text-black py-2">
-                            <div class="tooltip bg-red-400 px-2 py-1 rounded-md capitalize">
-                                {anime.subOrDub}
+                        <div class="flex gap-2 py-2 text-xs font-semibold text-black">
+                            <div class="tooltip rounded-md bg-red-400 px-2 py-1 capitalize">
+                                {$info.data.subOrDub}
                             </div>
-                            <div class="bg-green-400 px-2 py-1 rounded-md">
-                                {anime.status}
+                            <div class="rounded-md bg-green-400 px-2 py-1">
+                                {$info.data.status}
                             </div>
-                            <div class="bg-cyan-400 px-2 py-1 rounded-md first-letter:uppercase lowercase">
-                                {anime.type}
+                            <div class="rounded-md bg-cyan-400 px-2 py-1 lowercase first-letter:uppercase">
+                                {$info.data.type}
                             </div>
-                            <div class="bg-rose-400 px-2 py-1 rounded-md">
-                                {anime.rating}%
+                            <div class="rounded-md bg-rose-400 px-2 py-1">
+                                {$info.data.rating}%
                             </div>
                         </div>
                         <div class="mt-5 text-sm font-thin">
-                            {@html anime.description}
+                            {@html $info.data.description}
                         </div>
                     </div>
                 </div>
             </div>
-            {#if anime.type == "TV"}
-                <TvIndexCard anime="{anime}" params="{params}" />
+            {#if $info.data.type == "TV"}
+                <TvIndexCard anime="{$info.data}" params="{params}" />
             {:else}
-                <OtherIndexCard anime="{anime}" />
+                <OtherIndexCard anime="{$info.data}" />
             {/if}
         </div>
     </div>
-{:catch message}
-    <div class="absolute right-0 left-0 top-0 bottom-0 ">
-        {message}
-    </div>
-{/await}
+{/if}

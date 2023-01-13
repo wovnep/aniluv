@@ -45,5 +45,11 @@ export const getEpisode = async (epid: string) => {
         url: `${baseURL}/watch/${epid}`,
         responseType: ResponseType.JSON,
     });
-    return response.data;
+    const source = response.data.sources.filter((source) => source.quality == "default");
+    if (source.length != 0) {
+        return source[0];
+    } else {
+        const backup = response.data.sources.filter((source) => source.quality == "backup");
+        return backup[0];
+    }
 };
