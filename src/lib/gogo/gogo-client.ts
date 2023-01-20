@@ -29,11 +29,14 @@ export const getPopular = async () => {
     });
     return response.data;
 };
-export const getInfo = async (id: string) => {
+export const getInfo = async (id: string, isZoro: boolean) => {
     const client = await getClient();
     const response = await client.request<InfoResponse>({
         method: "GET",
         url: `${baseURL}/info/${id}`,
+        query: {
+            provider: isZoro ? "zoro" : "gogoanime",
+        },
         responseType: ResponseType.JSON,
     });
     return response.data;
@@ -43,6 +46,9 @@ export const getEpisode = async (epid: string) => {
     const response = await client.request<EpisodeResponse>({
         method: "GET",
         url: `${baseURL}/watch/${epid}`,
+        query: {
+            provider: "gogoanime",
+        },
         responseType: ResponseType.JSON,
     });
     const source = response.data.sources.filter((source) => source.quality == "default");

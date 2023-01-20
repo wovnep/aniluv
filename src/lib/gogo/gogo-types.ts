@@ -187,4 +187,10 @@ export interface EpisodeResponse {
             quality: string;
         }
     ];
+    subtitles: [
+        {
+            lang: string;
+            url: string;
+        }
+    ];
 }

@@ -19,7 +19,7 @@
 Aniluv is still under development. These are the features currently available on the app.
 
 -   Watch anime (Tv shows, Movies, etc.)
--   Connect Anilist and manage your anime list
+-   Connect Anilist and manage your anime list(Login to see manage option.)
 -   Supports Windows, Linux and macOS
 -   Search and view anime info
 -   Get trending/popular releases
