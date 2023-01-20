@@ -72,7 +72,7 @@
 </script>
 
 {#if user}
-    <div class="absolute right-0 mt-1">
+    <div class="mt-1">
         <button on:click="{modaltoggle}" class="rounded-md bg-cyan-500 py-2 px-3 text-sm"> UPDATE LIST </button>
     </div>
 {:else}
