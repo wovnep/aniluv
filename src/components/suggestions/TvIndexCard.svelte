@@ -12,20 +12,20 @@
                 {#if params.index && params.index == i}
                     <div class="h-full w-full rounded-2xl px-5 text-start text-white backdrop-blur-[1px] backdrop-brightness-[.1]">
                         <div class="title pt-5 font-extrabold">
-                            [{episodes.number}] {episodes.title}
+                            [{episodes.number}] {episodes.title ? episodes.title : ""}
                         </div>
                         <div class="description mt-5 text-sm font-thin">
-                            {episodes.description}
+                            {episodes.description ? episodes.description : ""}
                         </div>
                     </div>
                 {:else}
                     <a href="/watch/{anime.id}/{i}" use:link>
                         <div class="h-full w-full rounded-2xl px-5 text-start text-white backdrop-blur-[1px] backdrop-brightness-50 hover:backdrop-brightness-[.7]">
                             <div class="title pt-5 font-extrabold">
-                                [{episodes.number}] {episodes.title}
+                                [{episodes.number}] {episodes.title ? episodes.title : ""}
                             </div>
                             <div class="description mt-5 text-sm font-thin">
-                                {episodes.description}
+                                {episodes.description ? episodes.description : ""}
                             </div>
                         </div>
                     </a>

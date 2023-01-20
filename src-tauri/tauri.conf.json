@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "Aniluv",
-    "version": "0.2.0"
+    "version": "0.3.1"
   },
   "tauri": {
     "allowlist": {
@@ -16,19 +16,30 @@
       "http": {
         "all": true,
         "request": true,
-        "scope": ["https://api.consumet.org/*", "https://graphql.anilist.co"]
+        "scope": ["https://api.consumet.org/*", "https://graphql.anilist.co/*"]
       },
       "window": {
         "setFullscreen": true
       },
       "shell": {
         "open": true
+      },
+      "fs": {
+        "exists": true,
+        "readFile": true,
+        "writeFile": true,
+        "createDir": true,
+        "readDir": true,
+        "scope": ["$APPCACHE/**"]
+      },
+      "path": {
+        "all": true
       }
     },
     "bundle": {
       "active": true,
       "category": "Video",
-      "copyright": "wovnep",
+      "copyright": "© 2023 Aniluv",
       "deb": {
         "depends": []
       },
@@ -40,8 +51,8 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "aniluv",
-      "longDescription": "",
+      "identifier": "dev.wovnep.aniluv",
+      "longDescription": "A weeb app.",
       "macOS": {
         "entitlements": null,
         "exceptionDomain": "",
@@ -59,7 +70,7 @@
       }
     },
     "security": {
-      "csp": null
+      "csp": null, "devCsp": null
     },
     "updater": {
       "active": false

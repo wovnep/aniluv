@@ -19,10 +19,10 @@
     border-radius: 100px;
 }
 ::-webkit-scrollbar-thumb:vertical {
-    background: #121212;
+    background: rgb(0 0 0 / 100%);
     border-radius: 100px;
 }
 ::-webkit-scrollbar-thumb:horizontal {
-    background: #121212;
+    background: rgb(0 0 0 / 100%);
     border-radius: 100px;
 }
