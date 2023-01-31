@@ -1,5 +1,8 @@
 import { getClient, ResponseType } from "@tauri-apps/api/http";
+import { getSubtitle } from "./../player/subtitles";
+import { store } from "../anilist/anilist-login";
 import type { QueryResponse, TrendingPopularResponse, InfoResponse, EpisodeResponse } from "./gogo-types";
+
 const baseURL = "https://api.consumet.org/meta/anilist";
 
 export const query = async (q: string) => {
@@ -29,33 +32,67 @@ export const getPopular = async () => {
     });
     return response.data;
 };
-export const getInfo = async (id: string, isZoro: boolean) => {
+export const getInfo = async (id: string) => {
     const client = await getClient();
     const response = await client.request<InfoResponse>({
         method: "GET",
         url: `${baseURL}/info/${id}`,
         query: {
-            provider: isZoro ? "zoro" : "gogoanime",
+            provider: "gogoanime",
         },
         responseType: ResponseType.JSON,
     });
     return response.data;
 };
-export const getEpisode = async (epid: string) => {
+export const getEpisode = async (epid: string, id: string, index: number) => {
+    const provider = await store.get("provider");
     const client = await getClient();
-    const response = await client.request<EpisodeResponse>({
-        method: "GET",
-        url: `${baseURL}/watch/${epid}`,
-        query: {
-            provider: "gogoanime",
-        },
-        responseType: ResponseType.JSON,
-    });
-    const source = response.data.sources.filter((source) => source.quality == "default");
-    if (source.length != 0) {
-        return source[0];
+    const res: any = undefined || {};
+    if (provider === "crunchyroll") {
+        const crunchyrollInfo = await client.request<InfoResponse>({
+            method: "GET",
+            url: `${baseURL}/info/${id}`,
+            query: {
+                provider: "crunchyroll",
+            },
+            responseType: ResponseType.JSON,
+        });
+        const zoroInfo = await client.request<InfoResponse>({
+            method: "GET",
+            url: `${baseURL}/info/${id}`,
+            query: {
+                provider: "zoro",
+            },
+            responseType: ResponseType.JSON,
+        });
+        const crunchyrollEpisode = await client.request<EpisodeResponse>({
+            method: "GET",
+            url: `${baseURL}/watch/${crunchyrollInfo.data.episodes[index].id}`,
+            query: {
+                provider: "crunchyroll",
+            },
+            responseType: ResponseType.JSON,
+        });
+
+        res["source"] = crunchyrollEpisode.data.sources.filter((source) => source.quality == "auto")[0];
+        res["subtitles"] = await getSubtitle(zoroInfo.data.episodes[index].id);
     } else {
-        const backup = response.data.sources.filter((source) => source.quality == "backup");
-        return backup[0];
+        const gogoanime = await client.request<EpisodeResponse>({
+            method: "GET",
+            url: `${baseURL}/watch/${epid}`,
+            query: {
+                provider: "gogoanime",
+            },
+            responseType: ResponseType.JSON,
+        });
+        const source = gogoanime.data.sources.filter((source) => source.quality == "default");
+        if (source.length != 0) {
+            res["source"] = source[0];
+        } else {
+            const backup = gogoanime.data.sources.filter((source) => source.quality == "backup");
+            res["source"] = backup[0];
+        }
     }
+    console.log(res);
+    return res;
 };

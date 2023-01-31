@@ -1,7 +1,6 @@
 <script lang="ts">
     import { Player, Hls, DefaultUi, Captions } from "@vime/svelte";
     import { getInfo, getEpisode } from "../lib/gogo/gogo-client";
-    import { getSubtitle } from "../lib/player/subtitles";
     import { link } from "svelte-spa-router";
     import { appWindow } from "@tauri-apps/api/window";
     import { createQuery } from "@tanstack/svelte-query";
@@ -9,21 +8,16 @@
     import OtherIndexCard from "../components/suggestions/OtherIndexCard.svelte";
     import AnilistUpdate from "../components/anilist/AnilistUpdate.svelte";
     import Loading from "../components/handling/Loading.svelte";
-    import ToggleLang from "../components/languages/ToggleLang.svelte";
     import Error from "../components/handling/Error.svelte";
     interface Parameters {
         id: string;
         index: number;
     }
     export let params: Parameters;
-    let isToggle = false;
+
     $: info = createQuery({
         queryKey: [params.id],
-        queryFn: () => getInfo(params.id, false),
-    });
-    $: zoroInfo = createQuery({
-        queryKey: [params.id + "_zoro"],
-        queryFn: () => getInfo(params.id, true),
+        queryFn: () => getInfo(params.id),
     });
     const setFullscreen = async (e: any) => {
         if (e.detail) {
@@ -48,35 +42,25 @@
         <div class="my-5 ml-5 flex">
             <div class="relative inline-block w-[75%] after:block after:pt-[56.25%] after:content-['']">
                 <div class="absolute top-0 bottom-0 right-0 left-0">
-                    {#await getEpisode($info.data.episodes[params.index].id)}
+                    <Player theme="dark" style="--vm-player-theme: #555555; --vm-player-bg: #000000;" on:vmFullscreenChange="{setFullscreen}">
+                    {#await getEpisode($info.data.episodes[params.index].id, params.id, params.index)}
                         <div class="bg-black w-full pt-[56.25%]"></div>
                     {:then episodes}
-                        <Player theme="dark" style="--vm-player-theme: #555555; --vm-player-bg: #000000;" on:vmFullscreenChange="{setFullscreen}">
-                            {#if isToggle}
-                                {#await getSubtitle($zoroInfo.data.episodes[params.index].id)}
-                                    <div class="bg-black w-full pt-[56.25%]"></div>
-                                {:then subtitles}
-                                    <Hls>
-                                        <source data-src="{episodes.url}" type="application/x-mpegURL" />
-                                        {#each subtitles as subtitle}
-                                            <track kind="subtitles" src="{subtitle.url}" srclang="" label="{subtitle.lang}" />
-                                        {/each}
-                                    </Hls>
-                                    <DefaultUi noSpinner noCaptions>
-                                        <Captions style="--vm-captions-z-index: 10; --vm-captions-cue-bg-color: #000000; --vm-captions-cue-border-radius: 1px; --vm-captions-cue-padding: 10px; --vm-captions-text-color: #FFFFFF;" />
-                                    </DefaultUi>
-                                {/await}
-                            {:else}
-                                <Hls>
-                                    <source data-src="{episodes.url}" type="application/x-mpegURL" />
-                                </Hls>
-                                <DefaultUi noSpinner noCaptions />
-                            {/if}
+                            <Hls>
+                                <source data-src="{episodes.source.url}" type="application/x-mpegURL" />
+                                {#if episodes.subtitles}
+                                    {#each episodes.subtitles as subtitle}
+                                        <track kind="subtitles" src="{subtitle.url}" srclang="" label="{subtitle.lang}" />
+                                    {/each}
+                                {/if}
+                            </Hls>
+                            <DefaultUi noSpinner noCaptions>
+                                <Captions style="--vm-captions-z-index: 10;" />
+                            </DefaultUi>
+                            {/await}
                         </Player>
-                    {/await}
                     <div>
                         <div class="absolute right-0 flex items-center justify-between gap-2">
-                            <ToggleLang bind:isToggle="{isToggle}" />
                             <AnilistUpdate anime="{$info.data}" id="{params.id}" />
                         </div>
                         <div class="mt-2 text-start text-2xl font-bold tracking-wide">
