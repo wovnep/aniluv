@@ -6,6 +6,7 @@
     import DropDown from "../components/DropDown.svelte";
     import Loading from "../components/handling/Loading.svelte";
     import Error from "../components/handling/Error.svelte";
+    import ToggleLang from "../components/provider/ToggleProvider.svelte";
     const trending = createQuery({
         queryKey: ["trending"],
         queryFn: () => getTrending(),
@@ -17,6 +18,7 @@
 </script>
 
 <div class="flex w-full items-center justify-center py-3">
+    <ToggleLang />
     <div class="w-96 items-center">
         <Search />
     </div>

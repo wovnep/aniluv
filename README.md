@@ -19,11 +19,16 @@
 Aniluv is still under development. These are the features currently available on the app.
 
 -   Watch anime (Tv shows, Movies, etc.)
--   Connect Anilist and manage your anime list(Login to see manage option.)
+-   Choose between gogoanime and crunchyroll ([more](https://github.com/wovnep/aniluv#crunchyroll-vs-gogoanime))
+-   Connect Anilist and manage your anime list (Login to see manage option below player)
 -   Supports Windows, Linux and macOS
 -   Search and view anime info
 -   Get trending/popular releases
 -   Low memory usage, achieved by using rust on the backend (Tauri)
+
+## Crunchyroll vs Gogoanime
+
+If you can understand English just stick with Gogoanime. It's the most reliable anime provider, Or if you want other languages subtitles (depending on the anime), go with Crunchyroll. The Crunchyroll option bit slower to load anime, but after that you are fine.
 
 ## Download
 
@@ -99,6 +104,10 @@ Check out these amazing projects.
 -   [Tailwindcss](https://tailwindcss.com/)
 -   [Consumet](https://github.com/consumet)
 -   [Anilist](https://anilist.co/)
+
+## More
+
+-   [Discord](https://discord.gg/6uvyxGnNnp)
 
 ## License
 
