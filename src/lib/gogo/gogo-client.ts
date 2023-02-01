@@ -48,6 +48,14 @@ export const getEpisode = async (epid: string, id: string, index: number) => {
     const provider = await store.get("provider");
     const client = await getClient();
     const res: any = undefined || {};
+    const zoroInfo = await client.request<InfoResponse>({
+        method: "GET",
+        url: `${baseURL}/info/${id}`,
+        query: {
+            provider: "zoro",
+        },
+        responseType: ResponseType.JSON,
+    });
     if (provider === "crunchyroll") {
         const crunchyrollInfo = await client.request<InfoResponse>({
             method: "GET",
@@ -57,14 +65,7 @@ export const getEpisode = async (epid: string, id: string, index: number) => {
             },
             responseType: ResponseType.JSON,
         });
-        const zoroInfo = await client.request<InfoResponse>({
-            method: "GET",
-            url: `${baseURL}/info/${id}`,
-            query: {
-                provider: "zoro",
-            },
-            responseType: ResponseType.JSON,
-        });
+        if (crunchyrollInfo.data.episodes.length < 1) return null;
         const crunchyrollEpisode = await client.request<EpisodeResponse>({
             method: "GET",
             url: `${baseURL}/watch/${crunchyrollInfo.data.episodes[index].id}`,
@@ -73,7 +74,7 @@ export const getEpisode = async (epid: string, id: string, index: number) => {
             },
             responseType: ResponseType.JSON,
         });
-
+        if (crunchyrollEpisode.status !== 200) return null;
         res["source"] = crunchyrollEpisode.data.sources.filter((source) => source.quality == "auto")[0];
         res["subtitles"] = await getSubtitle(zoroInfo.data.episodes[index].id);
     } else {
@@ -86,6 +87,7 @@ export const getEpisode = async (epid: string, id: string, index: number) => {
             responseType: ResponseType.JSON,
         });
         const source = gogoanime.data.sources.filter((source) => source.quality == "default");
+        res["subtitles"] = await getSubtitle(zoroInfo.data.episodes[index].id);
         if (source.length != 0) {
             res["source"] = source[0];
         } else {
@@ -93,6 +95,5 @@ export const getEpisode = async (epid: string, id: string, index: number) => {
             res["source"] = backup[0];
         }
     }
-    console.log(res);
     return res;
 };

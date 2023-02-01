@@ -9,6 +9,7 @@
     import AnilistUpdate from "../components/anilist/AnilistUpdate.svelte";
     import Loading from "../components/handling/Loading.svelte";
     import Error from "../components/handling/Error.svelte";
+    import ToggleProvider from "../components/provider/ToggleProvider.svelte";
     interface Parameters {
         id: string;
         index: number;
@@ -43,22 +44,33 @@
             <div class="relative inline-block w-[75%] after:block after:pt-[56.25%] after:content-['']">
                 <div class="absolute top-0 bottom-0 right-0 left-0">
                     <Player theme="dark" style="--vm-player-theme: #555555; --vm-player-bg: #000000;" on:vmFullscreenChange="{setFullscreen}">
-                    {#await getEpisode($info.data.episodes[params.index].id, params.id, params.index)}
-                        <div class="bg-black w-full pt-[56.25%]"></div>
-                    {:then episodes}
-                            <Hls>
-                                <source data-src="{episodes.source.url}" type="application/x-mpegURL" />
-                                {#if episodes.subtitles}
-                                    {#each episodes.subtitles as subtitle}
-                                        <track kind="subtitles" src="{subtitle.url}" srclang="" label="{subtitle.lang}" />
-                                    {/each}
-                                {/if}
-                            </Hls>
-                            <DefaultUi noSpinner noCaptions>
-                                <Captions style="--vm-captions-z-index: 10;" />
-                            </DefaultUi>
-                            {/await}
-                        </Player>
+                        {#await getEpisode($info.data.episodes[params.index].id, params.id, params.index)}
+                            <div class="bg-black w-full pt-[56.25%]"></div>
+                        {:then episodes}
+                            {#if episodes}
+                                <Hls>
+                                    <source data-src="{episodes.source.url}" type="application/x-mpegURL" />
+                                    {#if episodes.subtitles}
+                                        {#each episodes.subtitles as subtitle}
+                                            <track kind="subtitles" src="{subtitle.url}" srclang="" label="{subtitle.lang}" />
+                                        {/each}
+                                    {/if}
+                                </Hls>
+                                <DefaultUi noSpinner noCaptions>
+                                    <Captions style="--vm-captions-z-index: 10;" />
+                                </DefaultUi>
+                            {:else}
+                                <div class="flex flex-col items-center py-20 bg-black w-full justify-center gap-4 h-[56.25%]">
+                                    <img class="h-auto w-72" src="./error.gif" alt="Error" />
+                                    <div class="text-center text-xl font-thin">Can't access this anime on Crunchyroll right now. Change the provider to Gogoanime.</div>
+                                    <button on:click="{() => window.location.reload()}" class="rounded-lg bg-accent py-2 px-3 text-sm">RELOAD</button>
+                                    <div class="absolute flex items-center justify-center text-center mt-96">
+                                        <ToggleProvider />
+                                    </div>
+                                </div>
+                            {/if}
+                        {/await}
+                    </Player>
                     <div>
                         <div class="absolute right-0 flex items-center justify-between gap-2">
                             <AnilistUpdate anime="{$info.data}" id="{params.id}" />

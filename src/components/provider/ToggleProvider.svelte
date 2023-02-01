@@ -11,7 +11,7 @@
     };
     onMount(async () => {
         const provider = await store.get("provider");
-        if(!provider) store.set("gogoanime")
+        if (!provider) store.set("provider", "gogoanime");
         if (provider === "crunchyroll") {
             isToggle = true;
         } else {
@@ -20,7 +20,7 @@
     });
 </script>
 
-<div class="absolute left-10 flex h-full items-center text-center">
+<div class="absolute flex h-full items-center text-center">
     <div class="mr-1 text-sm font-thin">GogoAnime</div>
     <label class="relative inline-block h-5 w-10 rounded-full">
         <input on:change="{changeHandler}" checked="{isToggle}" type="checkbox" class="peer h-0 w-0 opacity-0" />

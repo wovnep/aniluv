@@ -28,7 +28,7 @@ Aniluv is still under development. These are the features currently available on
 
 ## Crunchyroll vs Gogoanime
 
-If you can understand English just stick with Gogoanime. It's the most reliable anime provider, Or if you want other languages subtitles (depending on the anime), go with Crunchyroll. The Crunchyroll option bit slower to load anime, but after that you are fine.
+If you can understand English just stick with Gogoanime. It's the most reliable anime provider. If you want other languages subtitles (depending on the anime), go with Crunchyroll. In 0.4.1 Crunchyroll dosn't support anime movies, and bit slower.
 
 ## Download
 
