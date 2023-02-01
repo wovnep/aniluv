@@ -18,7 +18,9 @@
 </script>
 
 <div class="flex w-full items-center justify-center py-3">
-    <ToggleLang />
+    <div class="absolute top-10 left-10">
+        <ToggleLang />
+    </div>
     <div class="w-96 items-center">
         <Search />
     </div>
