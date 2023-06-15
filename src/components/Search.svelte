@@ -1,7 +1,8 @@
 <script lang="ts">
-    import { query } from "../lib/gogo/gogo-client";
     import { link } from "svelte-spa-router";
+    import { invoke } from "@tauri-apps/api/tauri";
     import DotLoading from "./handling/DotLoading.svelte";
+    import type { QueryResponse } from "../lib/gogo/gogo-types"
     let queryInput: string;
     let showResults: boolean = false;
     document.addEventListener(
@@ -49,7 +50,7 @@
         </form>
     </div>
     {#if showResults}
-        {#await query(queryInput)}
+        {#await invoke('gogo_search', { q: queryInput })}
             <DotLoading />
         {:then data}
             <div class="overflow-y-scroll absolute h-56 justify-center flex-row overflow-x-hidden w-96 bg-darker rounded-md py-2">
