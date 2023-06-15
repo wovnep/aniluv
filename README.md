@@ -19,7 +19,7 @@
 Aniluv is still under development. These are the features currently available on the app.
 
 -   Watch anime (Tv shows, Movies, etc.)
--   Choose between gogoanime and crunchyroll ([more](https://github.com/wovnep/aniluv#crunchyroll-vs-gogoanime))
+-   Choose between gogoanime and ~~crunchyroll~~ ([more](https://github.com/wovnep/aniluv#crunchyroll-vs-gogoanime))
 -   Connect Anilist and manage your anime list (Login to see manage option below player)
 -   Supports Windows, Linux and macOS
 -   Search and view anime info
@@ -28,15 +28,14 @@ Aniluv is still under development. These are the features currently available on
 
 ## Crunchyroll vs Gogoanime
 
-If you can understand English just stick with Gogoanime. It's the most reliable anime provider. If you want other languages subtitles (depending on the anime), go with Crunchyroll. In 0.4.1 Crunchyroll dosn't support anime movies, and bit slower.
-
+Crunchyroll currently disabled due to inconsistency in API.
 ## Download
 
 -   Download the latest version from [here](https://github.com/wovnep/aniluv/releases/latest). Make sure to select the right package based on your operating system.
 
 ## Build
 
-The first step is to install [Rust](https://www.rust-lang.org)
+First install [Rust](https://www.rust-lang.org)
 
 ### Windows
 

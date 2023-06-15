@@ -6,7 +6,7 @@
     "module": "ESNext",
     "resolveJsonModule": true,
     "baseUrl": ".",
-    "isolatedModules": true
+    "isolatedModules": true,
   },
   "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.svelte"],
   "references": [{ "path": "./tsconfig.node.json" }]

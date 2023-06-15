@@ -1,26 +1,28 @@
 <script lang="ts">
-    import { getPopular, getTrending } from "../lib/gogo/gogo-client";
     import { createQuery } from "@tanstack/svelte-query";
     import Search from "../components/Search.svelte";
     import Card from "../components/suggestions/Card.svelte";
     import DropDown from "../components/DropDown.svelte";
     import Loading from "../components/handling/Loading.svelte";
     import Error from "../components/handling/Error.svelte";
-    import ToggleLang from "../components/provider/ToggleProvider.svelte";
-    const trending = createQuery({
+    // import ToggleLang from "../components/provider/ToggleProvider.svelte";
+    import type { TrendingPopularResponse } from "../lib/gogo/gogo-types";
+    import { invoke } from '@tauri-apps/api/tauri'
+    const trending = createQuery<TrendingPopularResponse>({
         queryKey: ["trending"],
-        queryFn: () => getTrending(),
+        queryFn: () => invoke("gogo_trending"),
     });
-    const popular = createQuery({
+    const popular = createQuery<TrendingPopularResponse>({
         queryKey: ["popular"],
-        queryFn: () => getPopular(),
+        queryFn: () => invoke("gogo_popular"),
     });
+
 </script>
 
 <div class="flex w-full items-center justify-center py-3">
-    <div class="absolute top-10 left-10">
+    <!-- <div class="absolute top-10 left-10">
         <ToggleLang />
-    </div>
+    </div> -->
     <div class="w-96 items-center">
         <Search />
     </div>

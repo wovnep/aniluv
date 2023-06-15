@@ -1,6 +1,5 @@
 <script lang="ts">
     import { Player, Hls, DefaultUi, Captions } from "@vime/svelte";
-    import { getInfo, getEpisode } from "../lib/gogo/gogo-client";
     import { link } from "svelte-spa-router";
     import { appWindow } from "@tauri-apps/api/window";
     import { createQuery } from "@tanstack/svelte-query";
@@ -10,6 +9,8 @@
     import Loading from "../components/handling/Loading.svelte";
     import Error from "../components/handling/Error.svelte";
     import ToggleProvider from "../components/provider/ToggleProvider.svelte";
+    import { invoke } from "@tauri-apps/api/tauri";
+    import type { InfoResponse, EpisodeResponse } from "../lib/gogo/gogo-types"
     interface Parameters {
         id: string;
         index: number;
@@ -18,7 +19,7 @@
 
     $: info = createQuery({
         queryKey: [params.id],
-        queryFn: () => getInfo(params.id),
+        queryFn: () => invoke<InfoResponse>('gogo_info', { id: params.id }),
     });
     const setFullscreen = async (e: any) => {
         if (e.detail) {
@@ -27,6 +28,14 @@
             await appWindow.setFullscreen(false);
         }
     };
+    const getEpisode = async(epid) => {
+        const episodeResults = await invoke<EpisodeResponse>('gogo_episode', { epid: epid })
+        const defaultSource = episodeResults.sources.filter(source => source.quality === "default")
+        return {
+            url: defaultSource[0].url
+        }
+    }
+
 </script>
 
 {#if $info.isLoading}
@@ -34,6 +43,12 @@
 {:else if $info.isError}
     <Error />
 {:else if $info.isSuccess}
+    {#if $info.data.episodes[0].number !== 1}
+        {#await $info.data.episodes.reverse()}
+        {/await}
+    {/if}
+    <!-- {#await $info.data.episodes.reverse()}
+    {:then} -->
     <div>
         <a href="/" use:link>
             <div class="absolute right-6 top-3 rounded-full bg-menu p-2 hover:bg-darker">
@@ -44,17 +59,17 @@
             <div class="relative inline-block w-[75%] after:block after:pt-[56.25%] after:content-['']">
                 <div class="absolute top-0 bottom-0 right-0 left-0">
                     <Player theme="dark" style="--vm-player-theme: #555555; --vm-player-bg: #000000;" on:vmFullscreenChange="{setFullscreen}">
-                        {#await getEpisode($info.data.episodes[params.index].id, params.id, params.index)}
+                        {#await getEpisode($info.data.episodes[params.index].id)}
                             <div class="bg-black w-full pt-[56.25%]"></div>
                         {:then episodes}
                             {#if episodes}
                                 <Hls>
-                                    <source data-src="{episodes.source.url}" type="application/x-mpegURL" />
-                                    {#if episodes.subtitles}
+                                    <source data-src="{episodes.url}" type="application/x-mpegURL" />
+                                    <!-- {#if episodes.subtitles}
                                         {#each episodes.subtitles as subtitle}
                                             <track kind="subtitles" src="{subtitle.url}" srclang="" label="{subtitle.lang}" />
                                         {/each}
-                                    {/if}
+                                    {/if} -->
                                 </Hls>
                                 <DefaultUi noSpinner noCaptions>
                                     <Captions style="--vm-captions-z-index: 10;" />
@@ -115,4 +130,6 @@
             {/if}
         </div>
     </div>
+    <!-- {/await} -->
+
 {/if}
