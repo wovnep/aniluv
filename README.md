@@ -28,7 +28,7 @@ Aniluv is still under development. These are the features currently available on
 
 ## Crunchyroll vs Gogoanime
 
-Crunchyroll currently disabled due to inconsistency in API.
+Crunchyroll temporarily disabled due to inconsistency in API.
 ## Download
 
 -   Download the latest version from [here](https://github.com/wovnep/aniluv/releases/latest). Make sure to select the right package based on your operating system.
